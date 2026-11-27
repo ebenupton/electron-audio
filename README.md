@@ -114,7 +114,43 @@ sounds duller rather than noisier.
 
 ## Credits
 
-The tune is the theme from *Lost Patrol* (Ocean, 1990), music by Chris
-Glaister. It is included so that the discs can be rebuilt; the rights to it
-are not mine. The idea of high-rate sample playback on Acorn sound hardware
-owes a great deal to Chris Evans's (scarybeasts) work on the BBC Micro.
+**The music.** The theme from *Lost Patrol* (Ocean, 1990) is by Chris
+Glaister. The MOD is included so that the discs can be rebuilt. The rights to
+it are his and Ocean's successors'.
+
+**Chris Evans (scarybeasts).** This project exists because of his BBC Micro
+sample players, and in particular his November 2026 Stardot thread
+"[New music: Lost Patrol, Supercars, Batman, Castle Master](https://stardot.org.uk/forums/viewtopic.php?t=34013)".
+It began as an attempt to port that player to the Electron. Taken from him:
+
+- the idea that a stock Acorn machine can play a four-channel MOD from a
+  cycle-counted loop with nothing left to chance;
+- the choice of tune;
+- the habit of treating the emulator as ground truth and checking every write.
+
+Not taken: his code, and his two central techniques. He builds 147 output
+levels from the three SN76489 tone channels and holds two channels' sample
+positions in VIA timers. The Electron has neither chip, so the output stage
+here (run lengths written to the ULA once a tick) and the modulators in front
+of it are new. His Lost Patrol disc was disassembled late on to see how it
+prepares the samples. It keeps all four channels and every note, resamples the
+one sample that plays faster than his mix rate, and stores the looped pad as
+its loop alone at three quarters level. This player already resampled its
+drums to the mix rate; the pad is stored whole.
+
+**Dmitry_Milk.** His ZX Spectrum beeper engine
+[CORE5](https://github.com/DmitryMilk/CORE5) was read for comparison. Nothing
+from it is used, but it is the clearest account of the same problem on a
+machine whose CPU can place an edge anywhere.
+
+**Tools.** [beebasm](https://github.com/stardot/beebasm) (Rich Talbot-Watkins
+and contributors) assembles everything. Verification runs on Thomas Harte's
+[Clock Signal](https://github.com/TomHarte/CLK), through a headless Electron
+harness. The discs were developed on an ElkSD128 running MMFS.
+
+**Stardot.** The forum's collective knowledge of the Electron ULA, right and
+wrong, was the starting point for the hardware experiments behind the output
+scheme.
+
+**Claude.** The design, the code and the analysis were produced with
+Anthropic's Claude (Claude Code), working to my direction and to my ears.
